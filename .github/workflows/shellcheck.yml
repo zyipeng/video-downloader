@@ -1,0 +1,57 @@
+name: Shell Syntax Check
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'scripts/**'
+      - '.github/workflows/**'
+  pull_request:
+    branches: [main]
+    paths:
+      - 'scripts/**'
+      - '.github/workflows/**'
+  workflow_dispatch:
+
+jobs:
+  bash-syntax-check:
+    name: bash -n syntax check
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Run bash -n on all shell scripts
+        run: |
+          set -e
+          fail=0
+          while IFS= read -r -d '' script; do
+            echo "::group::bash -n $script"
+            if bash -n "$script"; then
+              echo "✅ $script"
+            else
+              echo "❌ $script has syntax errors"
+              fail=1
+            fi
+            echo "::endgroup::"
+          done < <(find scripts -type f \( -name "*.sh" -o -name "*.bash" \) -print0)
+
+          if [[ $fail -ne 0 ]]; then
+            echo "::error::One or more scripts failed bash -n"
+            exit 1
+          fi
+          echo "All shell scripts passed bash -n syntax check."
+
+  shellcheck:
+    name: ShellCheck (informational)
+    runs-on: ubuntu-latest
+    continue-on-error: true
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Run ShellCheck
+        uses: ludeeus/action-shellcheck@master
+        with:
+          scandir: './scripts'
+          severity: warning

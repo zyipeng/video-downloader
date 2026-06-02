@@ -1,0 +1,39 @@
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Editor
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Logs / temp
+*.log
+*.tmp
+*.bak
+
+# Local cookie / cache (绝对不能提交！)
+chrome-cookies.txt
+cookies.cache
+*.netscape
+cookies.txt
+
+# 测试时下载的视频文件
+*.mp4
+*.mkv
+*.webm
+*.m4a
+*.part
+*.ytdl
+*.frag
+
+# Python（脚本里用了 python3 处理 SSR HTML）
+__pycache__/
+*.pyc
+
+# 环境
+.env
+.env.local
