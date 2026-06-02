@@ -184,7 +184,7 @@ A：
 ```bash
 rm -rf ~/.cache/video-downloader     # cookies 探测缓存
 brew uninstall yt-dlp ffmpeg aria2   # 卸载工具
-rm -rf ~/.codeflicker/skills/video-downloader  # 删除 skill 本身
+rm -rf <your-skill-path>/video-downloader  # 删除 skill 本身（路径取决于你装到哪个 Agent 的 skills 目录）
 ```
 
 ### Q8：能在 Linux/Windows 上用吗？

@@ -2,7 +2,7 @@
 
 > 一个**通用的 AI Agent Skill**，让 AI 助手帮你从 9 个主流视频平台下载视频到本地。基于 `yt-dlp` + 自研脚本，主打 **解析后选档**、**画质透明**、**多线程加速**。
 >
-> ✅ **跨平台 Agent 通用**：兼容 [CodeFlicker / MyFlicker](https://github.com/CodeFlicker)、Codex、Claude Code、Cursor、Cline、以及任何支持 Markdown skill 加载的 AI Agent。本质上只是一个 `SKILL.md` + 几个 bash 脚本，不依赖任何特定 IDE 的 API。
+> ✅ **跨平台 Agent 通用**：兼容 Codex、Claude Code、Cursor、Cline、以及任何支持 Markdown skill 加载的 AI Agent。本质上只是一个 `SKILL.md` + 几个 bash 脚本，不依赖任何特定 IDE 的 API。
 
 [![version](https://img.shields.io/badge/version-2.7.0-blue.svg)](./CHANGELOG.md)
 [![license](https://img.shields.io/badge/license-MIT-green.svg)](./LICENSE)
@@ -28,10 +28,6 @@
 按你正在用的 AI Agent 把仓库放到对应的 skills 目录：
 
 ```bash
-# CodeFlicker / MyFlicker
-git clone https://github.com/<your-username>/video-downloader.git \
-  ~/.codeflicker/skills/video-downloader
-
 # Claude Code（用户级技能）
 git clone https://github.com/<your-username>/video-downloader.git \
   ~/.claude/skills/video-downloader

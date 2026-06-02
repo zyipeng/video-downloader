@@ -2,7 +2,7 @@
 
 > A **universal AI Agent Skill** that lets your AI assistant download videos from 9 major platforms straight to your disk. Built on `yt-dlp` + custom SSR-page parsers, with a focus on **probe-then-pick workflow**, **transparent quality tiers**, and **parallel-fragment speed**.
 >
-> ✅ **Cross-Agent compatible**: works with [CodeFlicker / MyFlicker](https://github.com/CodeFlicker), Codex, Claude Code, Cursor, Cline, and any AI Agent that loads Markdown skills. The skill is just a `SKILL.md` + a few bash scripts — no IDE-specific APIs required.
+> ✅ **Cross-Agent compatible**: works with Codex, Claude Code, Cursor, Cline, and any AI Agent that loads Markdown skills. The skill is just a `SKILL.md` + a few bash scripts — no IDE-specific APIs required.
 
 [![version](https://img.shields.io/badge/version-2.7.0-blue.svg)](./CHANGELOG.md)
 [![license](https://img.shields.io/badge/license-MIT-green.svg)](./LICENSE)
@@ -31,10 +31,6 @@
 Drop the repo into your AI Agent's skills directory:
 
 ```bash
-# CodeFlicker / MyFlicker
-git clone https://github.com/<your-username>/video-downloader.git \
-  ~/.codeflicker/skills/video-downloader
-
 # Claude Code (user-level skills)
 git clone https://github.com/<your-username>/video-downloader.git \
   ~/.claude/skills/video-downloader
