@@ -52,45 +52,65 @@ which yt-dlp ffmpeg aria2c 2>&1
 
 ⚠️ **不要直接下载**。**必须**先调 probe 拿到「视频元数据 + 全部可下载档位 + 每档大小」，把表格展示给用户由用户**自己选**。
 
+#### 3a. B 站 / 小红书：probe 前先询问"是否启用 Chrome 登录态"
+
+B 站默认 guest 模式**只能拿 480p**；小红书默认 guest 模式**只能拿 720p**。
+**probe 之前必须先问用户**：
+
+> 检测到这是 **B 站** 链接。
+>
+> - 如果你想要 **720P / 1080P / 4K**，需要读取 Chrome 浏览器的登录态 cookies（你已登录 bilibili.com 才有效，第一次会弹一次 macOS 钥匙串密码框，点「始终允许」即可永久免弹）
+> - 如果只下 480p / 不想弹钥匙串，可以走 guest 模式
+>
+> 选哪种？**(1) 用 Chrome 登录态拿高清 / (2) guest 模式只拿 480p**
+
+用户选 (1) → probe 命令前缀加 `VDL_USE_CHROME=1`：
+```bash
+VDL_USE_CHROME=1 bash "<skill_directory>/scripts/probe.sh" --human "<URL>"
+```
+用户选 (2) → 直接 probe（默认就是 guest）。
+
+**小红书同理**：用户想拿 1080p+ 必须选 (1)。
+
+#### 3b. 调 probe + 展示档位表
+
 ```bash
 bash "<skill_directory>/scripts/probe.sh" --human "<URL>"
+# 或 B 站/小红书要高清：
+VDL_USE_CHROME=1 bash "<skill_directory>/scripts/probe.sh" --human "<URL>"
 ```
 
 输出示例：
 
 ```
 ================================================================
-平台    : douyin
-标题    : XXX 教你 3 步做出网红甜品
-作者    : 美食小当家
-发布日期: 20260530
-时长    : 0m45s
-URL     : https://v.douyin.com/abcdef/
+平台    : bilibili
+标题    : 后面那个比较帅
+作者    : XXX
+时长    : 2m48s
+URL     : https://www.bilibili.com/video/BV1vPVQ6BEdj/
 ----------------------------------------------------------------
-  # 画质           编码         容器   大小      备注
+  # 画质           编码         容器   大小
 ----------------------------------------------------------------
-  0 原画 master    ?+aac        mp4   18.4 MiB  上传者原始文件（可能 4K60 HEVC）
-  1 1080p          h264+aac     mp4   12.1 MiB  H.264 转码（任意播放器兼容）
-  2 720p           h264+aac     mp4    6.3 MiB  H.264 转码（体积最小）
+  0 1080p H264   h264+aac      mp4    29.2 MiB
+  1 1080p HEVC   hevc+aac      mp4    22.2 MiB
+  2 1080p AV1    av1+aac       mp4    17.5 MiB
+  3 720p H264    h264+aac      mp4    16.6 MiB
+  ...
 ================================================================
 ```
 
-把上面这张表**直接展示给用户**，然后问：
+把上表**直接展示给用户**，并加上人话推荐：
 
-> 已解析视频信息（标题：xxx，作者：xxx）。检测到 N 个画质档位：
+> 已解析视频信息（标题：xxx）。检测到 N 个画质档位：
 >
-> - **#0 原画 master** — 18.4 MiB（4K60 HEVC，需现代播放器）← 画质优先建议
-> - **#1 1080p** — 12.1 MiB（H.264 + MP4，任意播放器兼容）← 兼容优先建议
-> - **#2 720p** — 6.3 MiB（H.264，最小最快）← 速度优先建议
+> - **#0 1080p H264** — 29.2 MiB（任意播放器兼容）← 兼容优先建议
+> - **#1 1080p HEVC** — 22.2 MiB（小 25%，需现代播放器）← 画质 / 体积平衡
+> - **#3 720p H264** — 16.6 MiB（最小最快）← 速度优先建议
 >
-> 你想下载哪一档？(回复行号 0 / 1 / 2，或者输入 quality / compat / speed 用预设规则)
+> 你想下载哪一档？(回复行号 0 / 1 / 2 / ...，或输入 quality / compat / speed 用预设规则)
 >
 > 保存位置默认 `~/Downloads`，如需修改请告诉我目录。
-
-#### 需要登录态的平台（B 站 / 小红书 quality）
-
-- B 站：`probe.sh` 在 guest 模式只会看到 480p；提示用户"想看到更高档位需要 Chrome 已登录 bilibili.com"，确认后设 `VDL_USE_CHROME=1` 重跑 probe
-- 小红书：guest 默认只见 720p；提示"要拿 4K HEVC 需要 Chrome 访问过 xiaohongshu.com（一次即可，不需要登录账号）"
 
 ### Step 4：执行下载（按用户选择）
 

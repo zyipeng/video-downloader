@@ -5,6 +5,19 @@
 格式遵循 [Keep a Changelog](https://keepachangelog.com/zh-CN/1.1.0/)，
 版本号遵循 [语义化版本 (SemVer)](https://semver.org/lang/zh-CN/)。
 
+## [2.8.1] - 2026-06-02
+
+### Added
+- **B 站 / 小红书 probe 流程**：probe 前 Agent 必须先询问用户「是否启用 Chrome 登录态」，由用户决定走 guest（B 站 480p / 小红书 720p）还是登录态（B 站 1080p+ / 小红书 4K）
+- `probe.sh` 新增 `VDL_USE_CHROME=1` 开关，启用后会读取 Chrome cookies 并复用 download.sh 的缓存文件（24h 一次钥匙串弹窗永久免弹）
+- `probe.sh` 在 B 站 / 小红书 guest 模式下输出明确提示：`>>> [probe] bilibili guest mode (HD/4K hidden). To unlock: VDL_USE_CHROME=1 bash ...`
+
+### Fixed
+- `probe.sh` 之前在 B 站只能拿到 480p，因为只读已存在的 cookie 缓存文件、不主动调 cookies-from-browser
+
+### Changed
+- SKILL.md Step 3 增加 3a / 3b 子步骤：先询问用户登录态偏好，再 probe
+
 ## [2.8.0] - 2026-06-02
 
 ### Changed (Anthropic Skill 规范对齐 — 重大重构)
