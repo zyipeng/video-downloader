@@ -5,6 +5,24 @@
 格式遵循 [Keep a Changelog](https://keepachangelog.com/zh-CN/1.1.0/)，
 版本号遵循 [语义化版本 (SemVer)](https://semver.org/lang/zh-CN/)。
 
+## [2.8.0] - 2026-06-02
+
+### Changed (Anthropic Skill 规范对齐 — 重大重构)
+- **SKILL.md 大瘦身**：320 行 → 169 行（–47%），20 KB → 7.9 KB（–61%）
+- **YAML `description` 重写**：2040 字符 → 386 字符，符合 Anthropic 规范的 ≤1024 字符上限；删除了冗长的触发词列表 + URL 域名穷举，改为"能做什么 + 何时用"的标准第三人称写法
+- **删除 YAML `version` 字段**：Anthropic 规范的 frontmatter 仅认 `name` + `description`；版本号仅在 git tag / CHANGELOG 中维护，不再写入 SKILL.md
+- **正文 onboarding 长文挪到 `SETUP.md`**：包括「首次使用 4 个确认」+「钥匙串弹窗完整说明」
+- **新增 `references/platform-notes.md`**：把 SKILL.md 里的「平台特定要点」「错误处理速查」「平台速查表」整段搬出，应用 Anthropic 推荐的 progressive disclosure 模式
+- **删除正文重复内容**：触发词列表（与 description 重复）、平台特定要点（已挪到 references）、错误处理表（已挪到 references）、Step 0 装饰性 echo
+- **SKILL.md 主文件改为"导航式"结构**：每个细节都指向独立 reference 文件，避免一次性加载所有内容
+
+### Rationale
+依据 Anthropic 官方 [Agent Skills authoring best practices](https://platform.claude.com/docs/en/agents-and-tools/agent-skills/authoring-best-practices)：
+- description ≤ 1024 字符，第三人称
+- SKILL.md 正文 ≤ 500 行
+- 用 progressive disclosure 把不常用的细节搬到附加文件
+- 简洁是王道：默认 Claude 已经很聪明，只写它不知道的东西
+
 ## [2.7.0] - 2026-06-02
 
 ### Added (Major workflow change — "先解析后选档"两步流)

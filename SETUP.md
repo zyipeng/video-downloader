@@ -233,3 +233,30 @@ ls -ld "$HOME/Downloads"
 ```
 
 全部 ✅ 就可以放心用了 🎉
+
+---
+
+## 首次使用 Skill 的 4 个确认（onboarding）
+
+第一次让 AI 助手用本 skill 下载视频前，建议先回答以下 4 个问题（一次性，AI 会记下你的偏好）：
+
+1. **依赖是否已装**：先在终端跑一遍 `which yt-dlp ffmpeg aria2c`，三行都有路径就 OK；缺哪个就 `brew install <name>`。
+2. **下载到哪里**：默认存到 `~/Downloads`。要换路径吗？比如 `~/Movies/`、外接硬盘？
+3. **要下 B 站 / 小红书吗**：这两个网站需要登录态。请在 Chrome 里登录对应网站，否则 B 站只能拿 480p、小红书会失败。
+4. **是否有 Mac 钥匙串弹窗顾虑**：第一次让 yt-dlp 读 Chrome cookies 会弹一次密码框。点「始终允许」一次以后就不再弹了。
+   如果你想完全避开，可以改用 Firefox（在 Firefox 里登录），跑下载时加 `VDL_BROWSER=firefox`。
+
+---
+
+## 钥匙串弹窗完整说明
+
+如果你的目标是**小红书（quality 模式）/ B 站**这类需要读 Chrome cookies 的场景，**第一次**运行会弹出系统弹窗：
+
+> security 想要使用你储存在钥匙串的 "Chrome Safe Storage" 中的机密信息
+
+### 你必须知道的事
+
+1. **为什么弹**：macOS Chrome 把 cookies 用 v10 AES 加密，密钥存在系统钥匙串里。yt-dlp（通过 `security` 命令）需要用户授权才能读这把密钥来解密 cookies。
+2. **本 skill 已做的优化**：**一次导出、永久免弹** —— 首次读 cookies 后会导出到 `~/.cache/video-downloader/chrome-cookies.txt`，后续 24 小时内走 `--cookies <file>` 而不是 `--cookies-from-browser`，不再调 `security`、不再弹钥匙串。
+3. **替代方案**：用 **Safari** 或 **Firefox** 替代（这两家不弹钥匙串密码框），设 `VDL_BROWSER=safari` / `VDL_BROWSER=firefox`。
+4. **怎么重置缓存**：`rm ~/.cache/video-downloader/chrome-cookies.txt`
