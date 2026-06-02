@@ -1,6 +1,8 @@
 # video-downloader
 
-> 一个为 [CodeFlicker / MyFlicker IDE](https://github.com/CodeFlicker) 设计的 AI Agent **Skill**，让 AI 助手帮你从 9 个主流视频平台下载视频到本地。基于 `yt-dlp` + 自研脚本，主打 **macOS 一键可用**、**画质可选**、**速度优先** 三档预设。
+> 一个**通用的 AI Agent Skill**，让 AI 助手帮你从 9 个主流视频平台下载视频到本地。基于 `yt-dlp` + 自研脚本，主打 **解析后选档**、**画质透明**、**多线程加速**。
+>
+> ✅ **跨平台 Agent 通用**：兼容 [CodeFlicker / MyFlicker](https://github.com/CodeFlicker)、Codex、Claude Code、Cursor、Cline、以及任何支持 Markdown skill 加载的 AI Agent。本质上只是一个 `SKILL.md` + 几个 bash 脚本，不依赖任何特定 IDE 的 API。
 
 [![version](https://img.shields.io/badge/version-2.7.0-blue.svg)](./CHANGELOG.md)
 [![license](https://img.shields.io/badge/license-MIT-green.svg)](./LICENSE)
@@ -11,7 +13,7 @@
 ## ✨ 亮点
 
 - 🎯 **9 个主流平台开箱即用**：YouTube / Bilibili / 抖音 / 小红书 / 快手 / 微博 / Twitter(X) / Vimeo / TikTok
-- 🎬 **三档画质策略**：质量优先（最高 4K/8K AV1）/ 速度优先（≤480p）/ 兼容优先（macOS QuickTime 原生支持）
+- 🎬 **三档画质策略**：质量优先（最高 4K/8K AV1）/ 速度优先（≤480p）/ **兼容优先**（1080p H.264 + MP4，**任意播放器 / 移动端 / 网页 / 剪辑软件都能直接打开**）
 - 🚀 **16 路并行下载**：自动用 aria2c 分片加速，YouTube/B 站轻松跑满带宽
 - 🍎 **macOS Keychain 一次性解决**：第一次弹一次钥匙串，导出 cookies 到本地复用，**24 小时内不再弹**
 - 🛡️ **官方 yt-dlp 失效时自动接管**：抖音 / 快手走自研 SSR 分享页解析器，**不依赖会过期的内置 extractor**
@@ -23,10 +25,19 @@
 
 ### 1. 安装本 Skill
 
+按你正在用的 AI Agent 把仓库放到对应的 skills 目录：
+
 ```bash
-# 克隆到 CodeFlicker 的 skills 目录
+# CodeFlicker / MyFlicker
 git clone https://github.com/<your-username>/video-downloader.git \
   ~/.codeflicker/skills/video-downloader
+
+# Claude Code（用户级技能）
+git clone https://github.com/<your-username>/video-downloader.git \
+  ~/.claude/skills/video-downloader
+
+# Cursor / Cline / Codex / 其他 — 放到该 Agent 的 skills 或 knowledge 目录即可
+# 本 skill 本质就是一个 SKILL.md + 几个 bash 脚本，没有专属 API 依赖
 ```
 
 ### 2. 安装依赖（一次性）
@@ -67,11 +78,11 @@ AI 会自动识别本 Skill、问你要哪种画质（A/B/C），然后跑下载
 
 ## 🎬 三种下载策略
 
-| 策略 | 画质上限 | 文件大小 | macOS QuickTime |
+| 策略 | 画质上限 | 文件大小 | 播放器兼容性 |
 |------|---------|---------|---|
-| **A. 质量优先** | 平台最高（4K/8K AV1/HEVC）| 最大 | ⚠️ AV1/VP9/HEVC 可能要 IINA/VLC |
-| **B. 速度优先** | ≤480p | 最小 | ✅ 原生 |
-| **C. 兼容优先**（推荐）| 1080p H.264 + AAC | 适中 | ✅ 双击即播 |
+| **A. 质量优先** | 平台最高（4K/8K AV1/HEVC）| 最大 | ⚠️ AV1/VP9/HEVC 需现代播放器（IINA/VLC/PotPlayer 等）|
+| **B. 速度优先** | ≤480p | 最小 | ✅ 任意播放器 |
+| **C. 兼容优先**（推荐）| 1080p H.264 + MP4 | 适中 | ✅ 任意播放器 / 移动端 / 网页 / Office / 剪辑软件 |
 
 每次下载前 AI 都会**主动询问你**选哪一档，不会替你做决定。
 

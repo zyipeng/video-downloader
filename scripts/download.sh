@@ -165,7 +165,7 @@ case "$MODE" in
   quality)
     FORMAT="bv*+ba/b"
     MERGE_FORMAT="mkv"
-    EXTRA_NOTE="(quality: max bitrate, may be AV1/HEVC; use IINA/VLC if QuickTime fails)"
+    EXTRA_NOTE="(quality: max bitrate, may be AV1/HEVC; needs modern player like IINA/VLC/PotPlayer)"
     ;;
   speed)
     FORMAT="bv*[height<=480][ext=mp4]+ba[ext=m4a]/b[height<=480][ext=mp4]/bv*[height<=480]+ba/b[height<=480]"
@@ -175,7 +175,7 @@ case "$MODE" in
   compat)
     FORMAT="bv*[vcodec^=avc1][height<=1080]+ba/b[ext=mp4][height<=1080]"
     MERGE_FORMAT="mp4"
-    EXTRA_NOTE="(compat: <=1080p H.264+AAC, QuickTime native)"
+    EXTRA_NOTE="(compat: <=1080p H.264+AAC, universal player support)"
     ;;
   *)
     echo "ERROR: unknown mode '$MODE'. Use quality | speed | compat." >&2

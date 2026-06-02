@@ -167,7 +167,7 @@ def mk(ratio, label, note, sz):
     }
 formats = [
     mk("default", "原画 master", "上传者原始文件（可能 4K60 HEVC）", sdef),
-    mk("1080p",  "1080p",       "H.264 转码（QuickTime 原生）",     s1080),
+    mk("1080p",  "1080p",       "H.264 转码（任意播放器兼容）",     s1080),
     mk("720p",   "720p",        "H.264 转码（体积最小）",           s720),
 ]
 print(json.dumps({
@@ -208,7 +208,7 @@ else
       ;;
     compat|*)
       TARGET_RATIO="1080p"
-      EXTRA_NOTE="(compat: 1080p H.264 + AAC, QuickTime native)"
+      EXTRA_NOTE="(compat: 1080p H.264 + AAC, universal player support)"
       ;;
   esac
 fi

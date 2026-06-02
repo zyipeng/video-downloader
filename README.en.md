@@ -1,6 +1,8 @@
 # video-downloader
 
-> An AI Agent **Skill** for the [CodeFlicker / MyFlicker IDE](https://github.com/CodeFlicker), letting your AI assistant download videos from 9 major platforms straight to your disk. Built on `yt-dlp` + custom SSR-page parsers, with a focus on **macOS one-click usability**, **quality presets**, and **parallel-fragment speed**.
+> A **universal AI Agent Skill** that lets your AI assistant download videos from 9 major platforms straight to your disk. Built on `yt-dlp` + custom SSR-page parsers, with a focus on **probe-then-pick workflow**, **transparent quality tiers**, and **parallel-fragment speed**.
+>
+> ✅ **Cross-Agent compatible**: works with [CodeFlicker / MyFlicker](https://github.com/CodeFlicker), Codex, Claude Code, Cursor, Cline, and any AI Agent that loads Markdown skills. The skill is just a `SKILL.md` + a few bash scripts — no IDE-specific APIs required.
 
 [![version](https://img.shields.io/badge/version-2.7.0-blue.svg)](./CHANGELOG.md)
 [![license](https://img.shields.io/badge/license-MIT-green.svg)](./LICENSE)
@@ -14,7 +16,7 @@
 ## ✨ Highlights
 
 - 🎯 **9 platforms work out of the box**: YouTube / Bilibili / Douyin (TikTok-CN) / Xiaohongshu (RedNote) / Kuaishou / Weibo / Twitter (X) / Vimeo / TikTok
-- 🎬 **Three quality presets**: Quality-First (up to 4K/8K AV1) / Speed-First (≤480p) / Compatible (1080p H.264, native QuickTime)
+- 🎬 **Three quality presets**: Quality-First (up to 4K/8K AV1) / Speed-First (≤480p) / **Compatible** (1080p H.264 + MP4 — plays in any media player, phone, browser, or editor)
 - 🚀 **16-way parallel downloads** via aria2c — easily saturate your bandwidth on YouTube/Bilibili
 - 🍎 **macOS Keychain solved once**: first run prompts Keychain once, exports cookies to a local file, **no more prompts for 24 hours**
 - 🛡️ **Auto-fallback when yt-dlp's built-in extractors break**: Douyin / Kuaishou use custom SSR share-page parsers — **no dependency on the often-broken built-in extractors**
@@ -26,9 +28,19 @@
 
 ### 1. Install this Skill
 
+Drop the repo into your AI Agent's skills directory:
+
 ```bash
+# CodeFlicker / MyFlicker
 git clone https://github.com/<your-username>/video-downloader.git \
   ~/.codeflicker/skills/video-downloader
+
+# Claude Code (user-level skills)
+git clone https://github.com/<your-username>/video-downloader.git \
+  ~/.claude/skills/video-downloader
+
+# Cursor / Cline / Codex / others — drop it in the agent's skills or knowledge folder.
+# This skill is just a SKILL.md + a few bash scripts — no IDE-specific APIs required.
 ```
 
 ### 2. Install dependencies (one-time)
@@ -69,11 +81,11 @@ For detailed install/permissions/path setup, see [`SETUP.md`](./SETUP.md).
 
 ## 🎬 Three Download Strategies
 
-| Strategy | Quality ceiling | File size | macOS QuickTime |
+| Strategy | Quality ceiling | File size | Player compatibility |
 |------|---------|---------|---|
-| **A. Quality-First** | Platform max (4K/8K AV1/HEVC) | Largest | ⚠️ AV1/VP9/HEVC may need IINA/VLC |
-| **B. Speed-First** | ≤480p | Smallest | ✅ Native |
-| **C. Compatible** (recommended) | 1080p H.264 + AAC | Medium | ✅ Double-click to play |
+| **A. Quality-First** | Platform max (4K/8K AV1/HEVC) | Largest | ⚠️ AV1/VP9/HEVC requires modern player (IINA / VLC / PotPlayer) |
+| **B. Speed-First** | ≤480p | Smallest | ✅ Any player |
+| **C. Compatible** (recommended) | 1080p H.264 + MP4 | Medium | ✅ Any player / mobile / browser / Office / editing software |
 
 The AI **always asks you** before downloading — it never picks a preset for you silently.
 

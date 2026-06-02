@@ -4,7 +4,7 @@
 
 ### 视频流编码
 
-| 编码 | 说明 | macOS QuickTime |
+| 编码 | 说明 | 播放器兼容性 |
 |------|------|-----------------|
 | H.264 (AVC, `avc1.*`) | 最广泛兼容 | ✅ |
 | VP9 (`vp9`) | 1080p 文件比 H.264 小 30–40% | ❌ |
@@ -12,7 +12,7 @@
 
 ### 音频流编码
 
-| 编码 | 容器 | QuickTime |
+| 编码 | 容器 | 播放器兼容性 |
 |------|------|-----------|
 | AAC (`mp4a.40.*`) | m4a | ✅ |
 | Opus | webm | ❌ |
@@ -44,11 +44,11 @@
 
 ### 视频流编码
 
-| 编码 | 说明 | macOS QuickTime |
+| 编码 | 说明 | 播放器兼容性 |
 |------|------|-----------------|
-| H.264 / AVC (`avc1.*`) | 兼容性最好 | ✅ |
-| HEVC / H.265 (`hev1.*`, `hvc1.*`) | B 站主推，文件小 30–50% | ⚠️ macOS 14+ 部分支持 |
-| AV1 (`av01.*`) | 实验性 | ❌ |
+| H.264 / AVC (`avc1.*`) | 兼容性最好 | ✅ 任意播放器 |
+| HEVC / H.265 (`hev1.*`, `hvc1.*`) | B 站主推，文件小 30–50% | ⚠️ 需现代播放器（IINA/VLC/PotPlayer）或新系统 |
+| AV1 (`av01.*`) | 实验性 | ⚠️ 需现代播放器 |
 
 ### 关键限制 ⚠️
 
@@ -134,7 +134,7 @@ curl -L -A "<iOS UA>" -o video.mp4 \
 |---|---|---|---|
 | `/playwm/` | （徽底忽略）| **总是 720p H.264 + 水印** | 默认分享 URL 用的路径 |
 | `/play/` | `?ratio=720p` | **720p H.264 转码**、无水印 | 文件最小 |
-| `/play/` | `?ratio=1080p` | **1080p H.264 转码**、无水印 | macOS QuickTime 原生支持 |
+| `/play/` | `?ratio=1080p` | **1080p H.264 转码**、无水印 | 任意播放器兼容 |
 | `/play/` | **`?ratio=default`** | **原始 master 文件**、无水印 | 可能是 4K60 HEVC / 1080p H.264 / 任意上传码率 |
 
 所以本 skill 的 mode 映射：
@@ -147,14 +147,14 @@ curl -L -A "<iOS UA>" -o video.mp4 \
 ### 注意
 
 - `quality` 拿到的是**上传者提供的原始文件**——如果原作者只传了 1080p，那拿到的就是 1080p；只有原作者传了 4K 才能拿 4K
-- 原始 master 可能是 HEVC（macOS QuickTime 部分支持）或 H.264，需要看 `ffprobe` 输出确认
+- 原始 master 可能是 HEVC（部分播放器不支持）或 H.264，需要看 `ffprobe` 输出确认
 - 不是所有视频都能拿到 4K，但 `ratio=default` 总是 >= `ratio=1080p` 的画质
 
 ### 原本该节原始记录（次序保留下方）
 
 - 分享 API 原生只提供 720p H.264 + AAC（默认 URL）；该限制已被 `/play/?ratio=` 隐藏参数突破
 - web detail API + a_bogus 签名则是拿 4K 的另一条路（本 skill 不走这条，太脆弱）
-- macOS QuickTime：720p/1080p H.264 原生可播；4K HEVC 需 macOS 14+ 才部分支持
+- 播放器兼容性：720p/1080p H.264 任意播放器可播；4K HEVC 需现代播放器（IINA / VLC / PotPlayer）或 macOS 14+
 
 ### URL 模式
 
@@ -185,9 +185,9 @@ yt-dlp "https://x.com/user/status/1234567890"
 
 | 容器 | 适合 | 限制 |
 |------|------|------|
-| **mp4** | H.264/H.265 + AAC | QuickTime 友好 |
-| **mkv** | 任意编码（AV1/Opus 都行） | QuickTime 不支持 |
-| **webm** | VP9/AV1 + Opus | QuickTime 不支持 |
+| **mp4** | H.264/H.265 + AAC | 任意播放器都能播 |
+| **mkv** | 任意编码（AV1/Opus 都行） | 需现代播放器（VLC/IINA/PotPlayer）|
+| **webm** | VP9/AV1 + Opus | 需现代播放器（VLC/IINA/PotPlayer）|
 
 ### yt-dlp format selector 速查
 

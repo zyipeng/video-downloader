@@ -156,7 +156,7 @@ URL     : https://v.douyin.com/abcdef/
   # 画质           编码         容器   大小      备注
 ----------------------------------------------------------------
   0 原画 master    ?+aac        mp4   18.4 MiB  上传者原始文件（可能 4K60 HEVC）
-  1 1080p          h264+aac     mp4   12.1 MiB  H.264 转码（QuickTime 原生）
+  1 1080p          h264+aac     mp4   12.1 MiB  H.264 转码（任意播放器兼容）
   2 720p           h264+aac     mp4    6.3 MiB  H.264 转码（体积最小）
 ================================================================
 ```
@@ -165,8 +165,8 @@ URL     : https://v.douyin.com/abcdef/
 
 > 已解析视频信息（标题：xxx，作者：xxx）。检测到 N 个画质档位：
 >
-> - **#0 原画 master** — 18.4 MiB（4K60 HEVC，QuickTime 可能不支持）← 画质优先建议
-> - **#1 1080p** — 12.1 MiB（H.264，QuickTime 原生）← 兼容优先建议
+> - **#0 原画 master** — 18.4 MiB（4K60 HEVC，需现代播放器）← 画质优先建议
+> - **#1 1080p** — 12.1 MiB（H.264 + MP4，任意播放器兼容）← 兼容优先建议
 > - **#2 720p** — 6.3 MiB（H.264，最小最快）← 速度优先建议
 >
 > 你想下载哪一档？(回复行号 0 / 1 / 2，或者输入 quality / compat / speed 用预设规则)
@@ -238,20 +238,24 @@ ps -p <PID> >/dev/null && echo RUNNING || echo DONE
 
 如果 `ffprobe` 输出的视频编码是 `vp9` / `av01` / `hevc`，**必须额外提醒**：
 
-> 这个文件是 `<编码>` 编码，macOS QuickTime/Finder 空格预览**可能无法播放**。建议用 IINA（`brew install --cask iina`）或 VLC 打开。
+> 这个文件是 `<编码>` 编码，**部分播放器 / 移动端 / 网页可能无法直接播放**（例如 macOS QuickTime / Windows 资源管理器缩略图 / Office 插入视频）。建议用现代播放器：
 >
-> 如果想要原生兼容版本，可以用"兼容优先"模式重新下一份。
+> - macOS：`brew install --cask iina` 或 VLC
+> - Windows：PotPlayer / VLC / MPV
+> - 跨平台：VLC / mpv / IINA
+>
+> 如果需要 **任意环境都能直接播放** 的文件，重选“兼容优先”模式下一遍（1080p H.264 + MP4）。
 
 ## 平台特定要点
 
 ### YouTube
 - 必备 `--extractor-args "youtube:player_client=ios,web_safari"` 绕 throttle
 - 限速主要靠 cookies + iOS 客户端 + 分片并发解决
-- AV1 / VP9 是默认最高画质，**macOS 原生不支持**
+- AV1 / VP9 是默认最高画质，**部分播放器 / 移动端不支持**（如 macOS QuickTime、Windows 资源管理器缩略图）
 
 ### Bilibili (B 站)
 - ⚠️ **720P / 1080P / 4K 必须登录**，否则只能拿 480x640
-- HEVC（hev1.*）是 B 站主推，文件小但 macOS QuickTime 不直接支持
+- HEVC（hev1.*）是 B 站主推，文件小但**部分播放器不直接支持**（如默认 QuickTime、Windows 老版 Media Player）
 - 如果用户没登录浏览器：建议先去浏览器登录 B 站（`https://www.bilibili.com`）再重试
 - B 站有"番剧"（bangumi）、"课程"（cheese）、"音频"等专门 extractor，URL 格式会自动识别
 
@@ -264,7 +268,7 @@ ps -p <PID> >/dev/null && echo RUNNING || echo DONE
   3. 优先尝试 `play`（无水印）版本，回退到 `playwm`（带水印）
 - **画质三档（通过隐藏的 `/play/?ratio=` 参数解锁）**：
   - `speed` → `ratio=720p` → 720p H.264 转码，文件最小
-  - `compat` → `ratio=1080p` → 1080p H.264 转码，macOS QuickTime 原生支持
+  - `compat` → `ratio=1080p` → 1080p H.264 转码，任意播放器兼容
   - **`quality` → `ratio=default` → 原始 master 文件（上传者提供什么就下什么）**，实测可以拿到 **4K60 HEVC**，也可能是 1080p H.264——**这是唯一拿 4K 的路径**
   - 关键隐藏机制：`/playwm/` 端点徽底忽略 ratio 参数只返 720p水印版；`/play/` 端点才看 ratio；分享 URL 默认写死 `ratio=720p`，脚本会自动重写
 - 自动尝试无水印版本（把 URL 里的 `playwm` 换成 `play`，并改写 ratio 参数）
