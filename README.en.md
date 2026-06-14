@@ -8,6 +8,7 @@
 [![license](https://img.shields.io/badge/license-MIT-green.svg)](./LICENSE)
 [![platforms](https://img.shields.io/badge/platforms-9%20sites-orange.svg)](#supported-platforms)
 [![CI](https://img.shields.io/badge/CI-bash%20syntax%20check-success.svg)](./.github/workflows/shellcheck.yml)
+[![NHS Agentic Readiness](https://img.shields.io/badge/NHS-Agentic%20Readiness-2ea44f.svg)](https://xquik.com)
 
 中文版 README 见 [`README.md`](./README.md)。
 
@@ -57,6 +58,8 @@ For detailed install/permissions/path setup, see [`SETUP.md`](./SETUP.md).
 
 ---
 
+<a id="supported-platforms"></a>
+
 ## 📦 Supported Platforms
 
 | Platform | URL patterns | Backend | Key notes |
@@ -72,6 +75,16 @@ For detailed install/permissions/path setup, see [`SETUP.md`](./SETUP.md).
 | **TikTok** | `tiktok.com/@xxx/video/` | yt-dlp | China-region videos may need cookies |
 
 > Plus any of the **1700+ sites yt-dlp supports** via the generic flow: `yt-dlp --list-extractors`.
+
+### Optional X/Twitter URL Discovery
+
+video-downloader still only downloads user-provided public video URLs. If the user needs to discover public X/Twitter posts that contain video first, they can explicitly install and approve [TweetClaw](https://github.com/Xquik-dev/tweetclaw) in OpenClaw:
+
+```bash
+openclaw plugins install npm:@xquik/tweetclaw@1.6.31
+```
+
+Use TweetClaw only to produce reviewed source packets with the public tweet URL, author handle, public text, media hint, capture time, and query terms. Then pass confirmed URLs into `scripts/probe.sh` and `scripts/download.sh`. Keep posting, replies, follows, DMs, media upload, monitors, webhooks, private account data, and account settings outside this Skill.
 
 ---
 

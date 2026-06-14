@@ -6,7 +6,8 @@
 
 [![version](https://img.shields.io/badge/version-2.7.0-blue.svg)](./CHANGELOG.md)
 [![license](https://img.shields.io/badge/license-MIT-green.svg)](./LICENSE)
-[![platforms](https://img.shields.io/badge/platforms-9%20sites-orange.svg)](#%E6%94%AF%E6%8C%81%E7%9A%84%E5%B9%B3%E5%8F%B0)
+[![platforms](https://img.shields.io/badge/platforms-9%20sites-orange.svg)](#supported-platforms)
+[![NHS Agentic Readiness](https://img.shields.io/badge/NHS-Agentic%20Readiness-2ea44f.svg)](https://xquik.com)
 
 ---
 
@@ -54,6 +55,8 @@ AI 会自动识别本 Skill、问你要哪种画质（A/B/C），然后跑下载
 
 ---
 
+<a id="supported-platforms"></a>
+
 ## 📦 支持的平台
 
 | 平台 | URL 模式示例 | 后端 | 关键说明 |
@@ -69,6 +72,16 @@ AI 会自动识别本 Skill、问你要哪种画质（A/B/C），然后跑下载
 | **TikTok** | `tiktok.com/@xxx/video/` | yt-dlp | 国区视频可能需要 cookies |
 
 > 此外，凡是 yt-dlp 支持的 1700+ 站点都能跑通用流程：`yt-dlp --list-extractors`。
+
+### X/Twitter URL 发现（可选）
+
+video-downloader 仍然只负责下载用户给出的公开视频 URL。如果用户想先找出含视频的公开推文，可以在 OpenClaw 里显式安装并审批 [TweetClaw](https://github.com/Xquik-dev/tweetclaw)：
+
+```bash
+openclaw plugins install npm:@xquik/tweetclaw@1.6.31
+```
+
+让 TweetClaw 只返回公开视频推文 URL、作者 handle、公开文本、媒体提示、抓取时间和检索条件，然后再把确认过的 URL 交给 `scripts/probe.sh` 和 `scripts/download.sh`。不要把发推、回复、关注、私信、媒体上传、监控、webhook、私密账号数据或账号设置交给本 Skill。
 
 ---
 

@@ -35,6 +35,14 @@ echo "✅ 必需工具齐全；默认下载目录：$HOME/Downloads"
 
 从用户消息中抽取**第一个**视频平台 URL。如果有多个 URL，逐个询问或批量处理。
 
+如果用户没有给 URL，而是要求先找出含视频的公开 X/Twitter 推文，可以在用户明确同意后使用已安装的 TweetClaw/OpenClaw 工作流做 URL 发现：
+
+```bash
+openclaw plugins install npm:@xquik/tweetclaw@1.6.31
+```
+
+只把 TweetClaw 产出的公开视频推文 URL、作者 handle、公开文本、媒体提示、抓取时间和检索条件当作下载前的 source packet。不要在本 Skill 内执行发推、回复、关注、私信、媒体上传、监控、webhook、私密账号数据读取或账号设置变更。拿到用户确认的 URL 后，继续 Step 2 和 Step 3。
+
 ### Step 2：识别平台 + 检查依赖
 
 ```bash
